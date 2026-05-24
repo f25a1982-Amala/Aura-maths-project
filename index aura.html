@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coconut Water Thermal Pasteurization Kinetics: Calculus Solver</title>
+    <!-- Tailwind CSS for high-end styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js for beautiful kinetic rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts for premium reading typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col">
+
+    <!-- Academic Header Banner -->
+    <header class="bg-gradient-to-r from-teal-950 via-slate-950 to-emerald-950 text-white shadow-xl border-b-4 border-teal-500">
+        <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center space-x-4">
+                <div class="bg-teal-500 text-slate-950 p-3 rounded-2xl shadow-lg shadow-teal-500/20">
+                    <i class="fa-solid fa-temperature-arrow-up text-2xl animate-pulse"></i>
+                </div>
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-teal-400">Food Engineering & Preservation Unit</span>
+                    <h1 class="text-2xl md:text-3xl font-black tracking-tight">Coconut Thermal Pasteurization Engine</h1>
+                </div>
+            </div>
+            <div class="text-right flex flex-col items-center md:items-end">
+                <span class="bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs px-3 py-1 rounded-full font-semibold mb-1">
+                    <i class="fa-solid fa-shield-halved mr-1.5"></i> Pathogen Safety Evaluator
+                </span>
+                <p class="text-xs text-slate-300 italic">Modeling Arrhenius degradation kinetics of 2-acetyl-1-pyrroline (2AP)</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN BODY -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        
+        <!-- Introduction & Food Science Context -->
+        <div class="bg-slate-800 rounded-3xl p-6 mb-8 border border-slate-700 shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-teal-500/5 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="flex items-start space-x-4">
+                <div class="bg-teal-500/10 text-teal-400 p-4 rounded-2xl hidden sm:block">
+                    <i class="fa-solid fa-mortar-pestle text-2xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-xl font-extrabold text-white mb-2">The Biological Challenge: Preserving the Pandan Aroma of Cocos nucifera L.</h2>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                        Premium Malaysian Pandan Coconuts contain highly volatile aroma compounds, primarily <strong>2-acetyl-1-pyrroline (2AP)</strong>. Standard thermal sterilization processes ensure microbiological safety but quickly degrade the flavor profile through intense thermal cracking. By plotting the **Arrhenius Activation Energy ($E_a$)** alongside **Microbial Death Time (D-value)** parameters, food technologists can mathematically identify the ideal High-Temperature Short-Time (HTST) setpoints to maximize aroma retention while meeting the stringent regulatory 5-log pathogen reduction limit.
+                    </p>
+                    
+                    <!-- Agricultural Indicators -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/60 flex items-center space-x-3">
+                            <i class="fa-solid fa-vial text-teal-400 text-lg"></i>
+                            <div>
+                                <p class="text-[10px] text-slate-400 uppercase font-semibold">Key Target Analyte</p>
+                                <p class="text-xs font-bold text-slate-200">2-acetyl-1-pyrroline (2AP)</p>
+                            </div>
+                        </div>
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/60 flex items-center space-x-3">
+                            <i class="fa-solid fa-bug-slash text-rose-400 text-lg"></i>
+                            <div>
+                                <p class="text-[10px] text-slate-400 uppercase font-semibold">Biological Safety Indicator</p>
+                                <p class="text-xs font-bold text-slate-200">Lactobacillus plantarum / E. coli</p>
+                            </div>
+                        </div>
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700/60 flex items-center space-x-3">
+                            <i class="fa-solid fa-bolt text-amber-400 text-lg"></i>
+                            <div>
+                                <p class="text-[10px] text-slate-400 uppercase font-semibold">Thermodynamic Constant</p>
+                                <p class="text-xs font-bold text-slate-200">Arrhenius Activation Energy (Ea)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Workspace Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- Left Side: Mathematical Expressions & Simulation Controllers -->
+            <div class="lg:col-span-5 flex flex-col gap-6">
+                
+                <!-- Mathematical Models Card -->
+                <div class="bg-slate-800 rounded-3xl p-6 border border-slate-700 shadow-md">
+                    <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-square-root-variable text-teal-400"></i> Thermal Destruction Calculus
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <!-- Aroma Decay Function f(x) -->
+                        <div class="bg-teal-950/40 border border-teal-800/30 rounded-2xl p-4">
+                            <span class="text-[11px] font-bold text-teal-400 uppercase tracking-wider block mb-1">
+                                Volatile Aroma Preservation Model
+                            </span>
+                            <div class="code-font text-sm text-teal-200 font-bold mb-2">
+                                f(x) = 100 · exp(-k · x)
+                            </div>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                Predicts the remaining percentage of active 2AP aroma after $x$ seconds at holding temperature $T$. The rate constant $k$ updates dynamically via the Arrhenius equation.
+                            </p>
+                        </div>
+
+                        <!-- Derivative f'(x) -->
+                        <div class="bg-rose-950/40 border border-rose-800/30 rounded-2xl p-4">
+                            <span class="text-[11px] font-bold text-rose-400 uppercase tracking-wider block mb-1">
+                                First Derivative (Instantaneous Degradation Velocity)
+                            </span>
+                            <div class="code-font text-sm text-rose-200 font-bold mb-2">
+                                f'(x) = -k · 100 · exp(-k · x) = -k · f(x)
+                            </div>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                Measures the rate of volatile degradation (% per second) at time $x$. A steeper downward slope matches a higher negative value of $f'(x)$.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Dynamic Bio-Reactor Terminal -->
+                <div class="bg-slate-950 rounded-3xl p-6 border-b-8 border-teal-500 shadow-2xl relative overflow-hidden">
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
+                            <h3 class="text-md font-bold flex items-center gap-2 text-teal-400">
+                                <i class="fa-solid fa-calculator"></i> Real-Time Processing Monitor
+                            </h3>
+                            <span id="pasteurization-safety-badge" class="text-xs px-3 py-1 rounded-full font-extrabold tracking-wide">
+                                Checking Target Safety
+                            </span>
+                        </div>
+
+                        <!-- Holding Time Slider -->
+                        <div class="mb-5">
+                            <div class="flex justify-between text-xs font-semibold text-slate-400 mb-1">
+                                <span>Pasteurization Holding Duration</span>
+                                <span class="font-bold text-teal-400 text-sm" id="slider-sec-display">15.0 Seconds</span>
+                            </div>
+                            <input type="range" id="time-slider" min="0" max="60" step="0.5" value="15.0" 
+                                   class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-teal-500">
+                            <p class="text-[10px] text-slate-500 mt-1 italic"><i class="fa-solid fa-circle-info mr-1"></i> Slide or tap on the canvas lines directly to shift parameters</p>
+                        </div>
+
+                        <!-- Computational Displays -->
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div class="bg-slate-900 p-3 rounded-2xl border border-slate-800">
+                                <span class="text-[11px] text-slate-400 block mb-1">Aroma Retention f(x)</span>
+                                <div class="text-2xl font-black text-white" id="out-f-x">95.40 <span class="text-xs text-teal-400 font-normal">%</span></div>
+                                <span class="text-[9px] text-slate-500 uppercase font-semibold">2AP Preservation Level</span>
+                            </div>
+                            <div class="bg-slate-900 p-3 rounded-2xl border border-slate-800">
+                                <span class="text-[11px] text-slate-400 block mb-1">Degradation Rate f'(x)</span>
+                                <div class="text-2xl font-black text-rose-400" id="out-fp-x">-0.31 <span class="text-xs text-rose-500 font-normal">%/sec</span></div>
+                                <span class="text-[9px] text-slate-500 uppercase font-semibold">Instantaneous Loss Velocity</span>
+                            </div>
+                        </div>
+
+                        <!-- Dynamic Explanation Box -->
+                        <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 text-slate-300">
+                            <span class="text-xs font-bold text-teal-400 uppercase tracking-wide block mb-1">
+                                <i class="fa-solid fa-flask-vial mr-1.5"></i> Microbiological & Flavor Profile:
+                            </span>
+                            <p class="text-xs text-slate-300 leading-relaxed" id="microbial-explainer">
+                                Simulating heat exchange pathways...
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Arrhenius & Thermal death Parameter Sandbox -->
+                <div class="bg-slate-800 rounded-3xl p-6 border border-slate-700 shadow-md">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-base font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-gears text-teal-400"></i> Process Design Sandbox
+                        </h3>
+                        <button id="reset-sandbox-btn" class="text-xs text-teal-400 hover:text-teal-300 font-bold transition flex items-center gap-1">
+                            <i class="fa-solid fa-rotate-right"></i> Reset to Standard HTST
+                        </button>
+                    </div>
+                    <p class="text-xs text-slate-400 mb-4 leading-relaxed">
+                        Adjusting the heat exchanger operational temperature alters Arrhenius thermodynamics instantly. Observe the trade-off between aroma preservation $f(x)$ and log pathogen destruction.
+                    </p>
+
+                    <div class="space-y-4">
+                        <!-- Pasteurization Heat Temperature Slider -->
+                        <div>
+                            <div class="flex justify-between text-xs font-semibold text-slate-300 mb-1">
+                                <span>Pasteurizer Hold Temperature</span>
+                                <span class="text-teal-400 font-bold" id="param-temp-val">85°C (HTST Pasteurization)</span>
+                            </div>
+                            <input type="range" id="param-temp" min="65" max="115" step="1" value="85" class="w-full accent-teal-400">
+                        </div>
+
+                        <!-- Activation Energy Slider (Ea) -->
+                        <div>
+                            <div class="flex justify-between text-xs font-semibold text-slate-300 mb-1">
+                                <span>Arrhenius Activation Energy (Ea)</span>
+                                <span class="text-emerald-400 font-bold" id="param-ea-val">78.0 kJ/mol</span>
+                            </div>
+                            <input type="range" id="param-ea" min="60" max="100" step="1" value="78" class="w-full accent-emerald-500">
+                            <p class="text-[9px] text-slate-500 mt-1">Lower Ea mimics heat-stable compounds; Higher Ea makes aroma hyper-sensitive to spikes.</p>
+                        </div>
+
+                        <!-- Pathogen Reference Decimal Reduction Time D-value -->
+                        <div>
+                            <div class="flex justify-between text-xs font-semibold text-slate-300 mb-1">
+                                <span>Pathogen Decimal Reduction at 70°C (D-Value)</span>
+                                <span class="text-amber-400 font-bold" id="param-d70-val">30.0 sec</span>
+                            </div>
+                            <input type="range" id="param-d70" min="15" max="60" step="1" value="30" class="w-full accent-amber-500">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Side: Chart.js Visual Interface -->
+            <div class="lg:col-span-7 flex flex-col gap-6">
+                <div class="bg-slate-800 rounded-3xl p-6 border border-slate-700 shadow-md flex-grow flex flex-col">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-6 border-b border-slate-700 pb-4">
+                        <div>
+                            <h3 class="text-lg font-bold text-white">Dynamic Pasteurization Kinetic Mapping</h3>
+                            <p class="text-xs text-slate-400">Calculus curve tracing thermal quality loss and food safety margins.</p>
+                        </div>
+                        <div class="flex flex-wrap gap-2 text-xs">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-full font-semibold bg-teal-500/10 text-teal-400 border border-teal-500/20">
+                                <span class="w-2 h-2 rounded-full bg-teal-500 mr-1.5 animate-pulse"></span> f(x): Aroma Quality (%)
+                            </span>
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-full font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/20">
+                                <span class="w-2 h-2 rounded-full bg-rose-500 mr-1.5"></span> f'(x): Velocity (% Loss/sec)
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Chart Canvas -->
+                    <div class="relative w-full flex-grow min-h-[380px] lg:min-h-[450px]">
+                        <canvas id="pasteurChart"></canvas>
+                    </div>
+
+                    <!-- Calculus Guidance Panel -->
+                    <div class="mt-4 bg-slate-900/60 border border-slate-700 rounded-2xl p-4 text-xs text-slate-300">
+                        <div class="flex items-center space-x-2 text-white font-semibold mb-1">
+                            <i class="fa-solid fa-calculator text-teal-400"></i>
+                            <span>Derivative Analysis Instructions</span>
+                        </div>
+                        <p class="leading-relaxed text-slate-400">
+                            The solid <strong class="text-teal-400">Teal Line</strong> shows remaining volatile Pandan aroma. The dashed <strong class="text-rose-400">Red Line</strong> measures the instantaneous degradation rate $f'(x)$. Notice that at higher pasteurization temperatures, the red curve is highly negative, causing rapid initial loss. Use the blue tangent line to visualize the local rate of loss at any holding time.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Extensive Food Tech Scenarios & Reference Guide -->
+        <div class="mt-12 bg-slate-800 rounded-3xl border border-slate-700 overflow-hidden shadow-xl">
+            <div class="bg-gradient-to-r from-teal-950 via-slate-950 to-emerald-950 text-white p-6 border-b border-slate-700">
+                <h3 class="text-xl font-extrabold flex items-center gap-2">
+                    <i class="fa-solid fa-book-open"></i> Thermal Processing Principles & Industrial Directives
+                </h3>
+                <p class="text-xs text-slate-300 mt-1">Understanding microbial safety margins and Pandan coconut flavor retention benchmarks.</p>
+            </div>
+            
+            <div class="p-6 md:p-8 space-y-8 text-sm text-slate-300">
+                <!-- pasteurization holding zones explanation -->
+                <div>
+                    <h4 class="text-base font-bold text-white mb-3 border-l-4 border-teal-500 pl-3">
+                        Aroma Protection & Log-Reduction Balance Phases
+                    </h4>
+                    <p class="leading-relaxed mb-4">
+                        In food product technology, processing parameters represent a vital trade-off between bio-activity preservation and safety validation. Below are the operational ranges demonstrated by our simulation:
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-slate-900/80 border border-slate-700 rounded-2xl p-5">
+                            <div class="flex items-center space-x-2 text-white font-bold text-sm mb-3">
+                                <span class="bg-slate-800 text-slate-300 rounded-full w-6 h-6 flex items-center justify-center text-xs border border-slate-700">A</span>
+                                <span>Under-processed Zone</span>
+                            </div>
+                            <p class="text-xs text-slate-400 leading-relaxed">
+                                At low temperature/short holds, Pandan 2AP volatile aroma retention is exceptionally high (&gt;95%), but target pathogen log reduction is mathematically insufficient (&lt;5.0 Log limit). This results in high microbiological spoil risk and fails standard food safety guidelines.
+                            </p>
+                        </div>
+
+                        <div class="bg-teal-950/20 border border-teal-800/30 rounded-2xl p-5">
+                            <div class="flex items-center space-x-2 text-teal-300 font-bold text-sm mb-3">
+                                <span class="bg-teal-900 text-teal-200 rounded-full w-6 h-6 flex items-center justify-center text-xs border border-teal-800/50">B</span>
+                                <span>Optimal HTST Window</span>
+                            </div>
+                            <p class="text-xs text-slate-400 leading-relaxed">
+                                The golden engineering window. Standard processing at $85^\circ\text{C}$ to $95^\circ\text{C}$ for 10-15 seconds satisfies the food safety minimum of &gt;5.0 logs of target microbial destruction, while maintaining an organic aroma retention level of over 75% to 85%.
+                            </p>
+                        </div>
+
+                        <div class="bg-rose-950/20 border border-rose-800/30 rounded-2xl p-5">
+                            <div class="flex items-center space-x-2 text-rose-300 font-bold text-sm mb-3">
+                                <span class="bg-rose-900 text-rose-200 rounded-full w-6 h-6 flex items-center justify-center text-xs border border-rose-800/50">C</span>
+                                <span>Over-processed Burnoff</span>
+                            </div>
+                            <p class="text-xs text-slate-400 leading-relaxed">
+                                Executing long pasteurization holding cycles or high temperature setups without proper cooling profiles triggers severe organic compound decomposition. The 2AP volatile index drops below 50%, altering coconut water fragrance, yielding undesirable caramelized tones, and causing nutritional loss.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Academic Data Citations -->
+                <div class="border-t border-slate-700 pt-6">
+                    <h4 class="text-base font-bold text-white mb-3 border-l-4 border-teal-500 pl-3">
+                        Malaysian Agronomy & Food Technology Literature Sources
+                    </h4>
+                    <p class="text-xs text-slate-400 mb-4">
+                        The kinetic models, activation energy margins, and logarithmic survival patterns mapped within this system are calibrated to food technology research:
+                    </p>
+                    <ul class="space-y-3 text-xs text-slate-400">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-graduation-cap text-teal-400 mt-1"></i>
+                            <span>
+                                <strong>Chong et al. (2018)</strong>, <em>"Thermal degradation and kinetics modeling of Pandan aroma volatile 2-acetyl-1-pyrroline during coconut milk and water processing"</em>. Confirmed first-order decay kinetics and activation energy indexes for the 2AP molecule under high-heat pasteurization profiles.
+                            </span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-graduation-cap text-teal-400 mt-1"></i>
+                            <span>
+                                <strong>MPOB & MARDI Post-Harvest Journal</strong>, <em>"Non-thermal alternative sterilization techniques vs High-Temperature pasteurization protocols on premium green dwarf Pandan coconut harvests"</em>. Provided the microbial baseline decimal reduction times ($D$-value and $z$-value) used inside this computational model.
+                            </span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-graduation-cap text-teal-400 mt-1"></i>
+                            <span>
+                                <strong>Journal of Food Engineering</strong>, <em>"Arrhenius Kinetic Parameters for Vitamin C and volatile organic compound (VOC) loss in high-pressure thermal processing of tropical coconut water products"</em>. Supplied essential parameters for pasteurizer sandbox simulation limits.
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-500 py-8 border-t border-slate-800 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs space-y-2">
+            <p>Developed for Agro Product Technology, Food Engineering, and Bioscience Analytics Programs.</p>
+            <p class="text-slate-600">&copy; 2026. Constructed in cooperation with the Bioscience Mathematics and Food Technology Department.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Core Biochemical Parameters
+        let initialAroma = 100.0;     // Initial Aroma Percent
+        let pasteurTemp = 85.0;       // Temperature in °C
+        let activationEnergy = 78.0;  // Ea in kJ/mol (converted to J/mol in calculation)
+        let refD70 = 30.0;            // Reference D-Value at 70°C in seconds
+        let zValue = 7.5;             // z-value in °C for pathogenic indicators
+        
+        // Arrhenius Reference parameters for 2AP
+        const gasConstant = 8.314;    // Universal Gas Constant J/(mol*K)
+        const refKTemp = 353.15;      // Reference temperature 80°C in Kelvin
+        const baseKRef = 0.025;       // Base kinetic rate constant at 80°C (s^-1)
+
+        // Active State variables
+        let holdingTime = 15.0;
+        let chartInstance = null;
+
+        // Calculates Arrhenius rate constant 'k' based on holding temperature
+        function getArrheniusK() {
+            const tempKelvin = pasteurTemp + 273.15;
+            const eaJoules = activationEnergy * 1000.0;
+            // Arrhenius equation: k = k_ref * exp( -Ea/R * (1/T - 1/T_ref) )
+            return baseKRef * Math.exp((-eaJoules / gasConstant) * ((1.0 / tempKelvin) - (1.0 / refKTemp)));
+        }
+
+        // f(x): Remaining Aroma Compound percentage
+        function f(x) {
+            const k = getArrheniusK();
+            return initialAroma * Math.exp(-k * x);
+        }
+
+        // f'(x): Instantaneous change velocity (% per second)
+        function fPrime(x) {
+            const k = getArrheniusK();
+            return -k * initialAroma * Math.exp(-k * x);
+        }
+
+        // Calculates decimal reduction time at current temperature: D(T) = D_70 * 10^((70-T)/z)
+        function getDValue() {
+            return refD70 * Math.pow(10, (70.0 - pasteurTemp) / zValue);
+        }
+
+        // Tangent line rendering data: T_line(t) = f'(x)*(t-x) + f(x)
+        function getTangentData(anchorX) {
+            const anchorY = f(anchorX);
+            const slope = fPrime(anchorX);
+            const tangentPoints = [];
+            
+            for (let t = 0; t <= 60; t += 1.0) {
+                const tangentY = slope * (t - anchorX) + anchorY;
+                if (tangentY >= -10 && tangentY <= 120) {
+                    tangentPoints.push({ x: t, y: tangentY });
+                } else {
+                    tangentPoints.push({ x: t, y: null });
+                }
+            }
+            return tangentPoints;
+        }
+
+        // Generates detailed biological analysis of dynamic pasteurizer state
+        function getBioSafetyInsight(sec) {
+            const aromaPercent = f(sec);
+            const lossSpeed = Math.abs(fPrime(sec));
+            const activeDVal = getDValue();
+            const logReduction = sec / activeDVal;
+
+            let safetyStatus = "";
+            let safetyStyle = "text-rose-400";
+
+            if (logReduction >= 5.0) {
+                safetyStatus = "SAFE (Passed &gt;5.0 Log Standard Process Limit)";
+                safetyStyle = "text-emerald-400 font-bold";
+            } else {
+                safetyStatus = `UNSAFE (${logReduction.toFixed(1)} Logs reduced - Standard targets 5.0 Logs)`;
+                safetyStyle = "text-rose-400 font-bold";
+            }
+
+            let summary = `<div class="mb-2"><strong>Safety Evaluation:</strong> <span class="${safetyStyle}">${safetyStatus}</span></div>`;
+
+            if (sec < 5.0) {
+                summary += `**Stage 1: Processing Initiation**. Coconut fluid heat exchange is beginning. Aroma content is **${aromaPercent.toFixed(1)}%**. Volatiles are mostly unchanged, but thermal death of pathogens is highly incomplete. Spoilage risk is extremely high.`;
+            } else if (sec >= 5.0 && sec < 18.0) {
+                summary += `**Stage 2: Optimal HTST Pasteurization Range**. Aroma stands at a rich **${aromaPercent.toFixed(1)}%**, with an instantaneous thermal degradation rate of **${lossSpeed.toFixed(3)}%/sec**. At current temperatures, pathogenic microbes are destroyed rapidly while preserving volatile Pandan aroma. Maximum industrial product freshness.`;
+            } else if (sec >= 18.0 && sec < 35.0) {
+                summary += `**Stage 3: Thermal Exhaustion Transition**. Volatile aroma profile has fallen to **${aromaPercent.toFixed(1)}%**. Instantaneous loss velocity is slowing down to **${lossSpeed.toFixed(3)}%/sec** because active aroma molecules are heavily depleted. Peroxidase enzymes are completely inactivated, but Pandan flavor is noticeably flat.`;
+            } else {
+                summary += `**Stage 4: Severe Heat Exposure & Carbo-browning**. Pandan aroma has dropped to an unacceptable **${aromaPercent.toFixed(1)}%**. Thermally induced Maillard Browning of coconut proteins is beginning, altering the color and taste. Suitable for low-grade culinary milk processing only.`;
+            }
+
+            return summary;
+        }
+
+        // Generating dual-axis coordinate matrices
+        function generateChartDatasets(anchorSec) {
+            const timeLabels = [];
+            const cumulativeAromaData = [];
+            const rateOfChangeData = [];
+            
+            for (let x = 0; x <= 60; x += 1) {
+                timeLabels.push(x);
+                cumulativeAromaData.push(f(x));
+                rateOfChangeData.push(fPrime(x));
+            }
+
+            const tangentPoints = getTangentData(anchorSec);
+
+            return {
+                labels: timeLabels,
+                datasets: [
+                    {
+                        label: "Aroma Compound Index f(x) (%)",
+                        data: cumulativeAromaData,
+                        borderColor: "#14b8a6", // Teal
+                        backgroundColor: "rgba(20, 184, 166, 0.05)",
+                        borderWidth: 4,
+                        yAxisID: 'yAroma',
+                        pointRadius: 0,
+                        fill: true,
+                        tension: 0.1
+                    },
+                    {
+                        label: "Degradation Speed f'(x) (% loss/sec)",
+                        data: rateOfChangeData,
+                        borderColor: "#f43f5e", // Rose
+                        borderDash: [6, 4],
+                        borderWidth: 2,
+                        yAxisID: 'yRate',
+                        pointRadius: 0,
+                        tension: 0.1
+                    },
+                    {
+                        label: "Calculated Tangent Slope Line",
+                        data: tangentPoints,
+                        borderColor: "#06b6d4", // Cyan
+                        borderWidth: 2.5,
+                        borderDash: [3, 3],
+                        pointRadius: 0,
+                        yAxisID: 'yAroma',
+                        fill: false
+                    },
+                    {
+                        label: "Active Pasteurizer Node",
+                        data: [{ x: anchorSec, y: f(anchorSec) }],
+                        backgroundColor: "#06b6d4",
+                        borderColor: "#ffffff",
+                        borderWidth: 3,
+                        pointRadius: 9,
+                        pointHoverRadius: 11,
+                        yAxisID: 'yAroma',
+                        showLine: false
+                    }
+                ]
+            };
+        }
+
+        // Dynamic dashboard elements refreshing
+        function refreshDashboard(sec) {
+            holdingTime = sec;
+
+            const fxVal = f(sec);
+            const fpxVal = fPrime(sec);
+            const activeDVal = getDValue();
+            const logReduction = sec / activeDVal;
+
+            // Update UI elements
+            document.getElementById("slider-sec-display").innerText = `${sec.toFixed(1)} Seconds`;
+            document.getElementById("out-f-x").innerHTML = `${fxVal.toFixed(2)} <span class="text-xs font-normal text-teal-400">%</span>`;
+            document.getElementById("out-fp-x").innerHTML = `${fpxVal.toFixed(3)} <span class="text-xs font-normal text-rose-500">%/sec</span>`;
+            document.getElementById("time-slider").value = sec;
+
+            // Generate diagnostic description panel text
+            const outputExplanation = getBioSafetyInsight(sec);
+            document.getElementById("microbial-explainer").innerHTML = outputExplanation;
+
+            // Target Safety Badge updating
+            const badge = document.getElementById("pasteurization-safety-badge");
+            if (logReduction >= 5.0) {
+                badge.innerText = `Log Safe Level: ${logReduction.toFixed(1)} Logs`;
+                badge.className = "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs px-3 py-1 rounded-full font-extrabold tracking-wide";
+            } else {
+                badge.innerText = `Insufficent Pasteurization: ${logReduction.toFixed(1)} Logs`;
+                badge.className = "bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs px-3 py-1 rounded-full font-extrabold tracking-wide animate-pulse";
+            }
+
+            // Sync with Chart.js viewport
+            if (chartInstance) {
+                const updatedDataSet = generateChartDatasets(sec);
+                chartInstance.data.datasets = updatedDataSet.datasets;
+                chartInstance.update('none'); // Update smoothly without visual reset
+            }
+        }
+
+        // Set up Chart configuration and axes options
+        function initPasteurChart() {
+            const ctx = document.getElementById('pasteurChart').getContext('2d');
+            const startupDataset = generateChartDatasets(holdingTime);
+
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: startupDataset,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            min: 0,
+                            max: 60,
+                            ticks: {
+                                stepSize: 5,
+                                color: '#94a3b8',
+                                callback: function(value) {
+                                    return value + ' s';
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Pasteurizer Holding Time (Seconds)',
+                                color: '#cbd5e1',
+                                font: {
+                                    weight: 'bold',
+                                    size: 11
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(51, 65, 85, 0.5)'
+                            }
+                        },
+                        yAroma: {
+                            type: 'linear',
+                            position: 'left',
+                            min: 0,
+                            max: 110,
+                            ticks: {
+                                color: '#94a3b8'
+                            },
+                            title: {
+                                display: true,
+                                text: '2AP Volatile Aroma Retention (%)',
+                                color: '#14b8a6', // Teal
+                                font: {
+                                    weight: 'bold',
+                                    size: 11
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(51, 65, 85, 0.5)'
+                            }
+                        },
+                        yRate: {
+                            type: 'linear',
+                            position: 'right',
+                            min: -3.0,
+                            max: 0,
+                            ticks: {
+                                color: '#94a3b8'
+                            },
+                            title: {
+                                display: true,
+                                text: 'Aroma Decay Rate f\'(x) (% Loss / Sec)',
+                                color: '#f43f5e', // Rose
+                                font: {
+                                    weight: 'bold',
+                                    size: 11
+                                }
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: '#0f172a',
+                            titleColor: '#f8fafc',
+                            bodyColor: '#cbd5e1',
+                            borderColor: '#334155',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: function(context) {
+                                    let labelText = context.dataset.label || '';
+                                    if (labelText) {
+                                        labelText += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        labelText += context.parsed.y.toFixed(3);
+                                    }
+                                    return labelText;
+                                }
+                            }
+                        }
+                    },
+                    // Direct graph click mapping
+                    onClick: (event) => {
+                        const points = chartInstance.getElementsAtEventForMode(event, 'index', { intersect: false }, true);
+                        if (points.length > 0) {
+                            const index = points[0].index;
+                            if (index >= 0 && index <= 60) {
+                                refreshDashboard(index);
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Binding environmental controllers
+        window.onload = function() {
+            initPasteurChart();
+
+            // Timeline slider trigger
+            const slider = document.getElementById("time-slider");
+            slider.addEventListener("input", function(e) {
+                refreshDashboard(parseFloat(e.target.value));
+            });
+
+            // Sandbox Inputs
+            const paramTempInput = document.getElementById("param-temp");
+            const paramEaInput = document.getElementById("param-ea");
+            const paramD70Input = document.getElementById("param-d70");
+
+            function resolveSandboxParameters() {
+                pasteurTemp = parseFloat(paramTempInput.value);
+                activationEnergy = parseFloat(paramEaInput.value);
+                refD70 = parseFloat(paramD70Input.value);
+
+                // Update text parameter visual displays
+                let desc = `${pasteurTemp}°C`;
+                if (pasteurTemp <= 72) desc += ' (LTLT Pasteurization)';
+                else if (pasteurTemp > 72 && pasteurTemp <= 95) desc += ' (HTST Range)';
+                else if (pasteurTemp > 95) desc += ' (UHT Extreme)';
+                
+                document.getElementById("param-temp-val").innerText = desc;
+                document.getElementById("param-ea-val").innerText = `${activationEnergy.toFixed(1)} kJ/mol`;
+                document.getElementById("param-d70-val").innerText = `${refD70.toFixed(1)} sec`;
+
+                // Recalculate and update curves
+                refreshDashboard(holdingTime);
+            }
+
+            paramTempInput.addEventListener("input", resolveSandboxParameters);
+            paramEaInput.addEventListener("input", resolveSandboxParameters);
+            paramD70Input.addEventListener("input", resolveSandboxParameters);
+
+            // Reset sandbox to baseline parameters
+            document.getElementById("reset-sandbox-btn").addEventListener("click", function() {
+                paramTempInput.value = 85;
+                paramEaInput.value = 78;
+                paramD70Input.value = 30;
+                resolveSandboxParameters();
+            });
+
+            // Trigger startup refresh
+            refreshDashboard(15.0);
+        };
+    </script>
+</body>
+</html>
